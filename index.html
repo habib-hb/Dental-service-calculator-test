@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Testing</title>
+</head>
+<body>
+    
+
+    <p>Testing</p>
+
+    <p id="test"></p>
+
+    <form id="cosmetic-price-estimation-form" class="max-w-xl mx-auto p-4 border rounded-lg shadow-lg bg-white h-[350px] overflow-y-auto">
+        <div class="mb-4">
+            <label for="procedure-type" class="block text-sm font-medium text-gray-700">Select Cosmetic Procedure:</label>
+            <select id="procedure-type" name="procedure-type" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <option value="whitening" data-cost="500">Teeth Whitening - $500</option>
+                <option value="veneers" data-cost="1500">Veneers - $1,500 per tooth</option>
+                <option value="bonding" data-cost="300">Bonding - $300 per tooth</option>
+                <option value="reshaping" data-cost="400">Reshaping - $400 per tooth</option>
+                <option value="others" data-cost="0">Others - Varies</option>
+            </select>
+        </div>
+    
+        <div class="mb-4">
+            <label for="number-of-teeth" class="block text-sm font-medium text-gray-700">Number of Teeth Involved:</label>
+            <input type="number" id="number-of-teeth" name="number-of-teeth" min="1" value="1" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+        </div>
+    
+        <div class="mb-4">
+            <label for="material-choice" class="block text-sm font-medium text-gray-700">Select Material:</label>
+            <select id="material-choice" name="material-choice" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <option value="porcelain" data-cost="1500">Porcelain - $1,500 per tooth</option>
+                <option value="composite" data-cost="300">Composite - $300 per tooth</option>
+                <option value="ceramic" data-cost="1400">Ceramic - $1,400 per tooth</option>
+                <option value="others" data-cost="0">Others - Varies</option>
+            </select>
+        </div>
+    
+        <div class="mb-4">
+            <label for="shade" class="block text-sm font-medium text-gray-700">Desired Shade/Color:</label>
+            <select id="shade" name="shade" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <option value="natural" data-cost="0">Natural - No additional cost</option>
+                <option value="extra-white" data-cost="100">Extra White - $100 extra</option>
+                <option value="customized" data-cost="150">Customized - $150 extra</option>
+            </select>
+        </div>
+    
+        <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700"><input type="checkbox" id="existing-work" data-cost="300" class="mr-2">Do you have existing dental work? (Potential additional cost: $300)</label>
+        </div>
+    
+        <div class="mb-4">
+            <label for="complexity" class="block text-sm font-medium text-gray-700">Case Complexity:</label>
+            <select id="complexity" name="complexity" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <option value="simple" data-cost="0">Simple - No additional cost</option>
+                <option value="moderate" data-cost="200">Moderate - $200 extra</option>
+                <option value="complex" data-cost="500">Complex - $500 extra</option>
+            </select>
+        </div>
+    
+        <div class="mb-4">
+            <label for="visits" class="block text-sm font-medium text-gray-700">Estimated Number of Visits:</label>
+            <select id="visits" name="visits" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <option value="1" data-cost="0">1 - No additional cost</option>
+                <option value="2" data-cost="150">2 - $150 extra</option>
+                <option value="3+" data-cost="300">3+ - $300 extra</option>
+            </select>
+        </div>
+    
+        <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700"><input type="checkbox" id="gum-contouring" data-cost="600" class="mr-2">Gum Contouring - $600</label>
+            <label class="block text-sm font-medium text-gray-700"><input type="checkbox" id="orthodontics" data-cost="2000" class="mr-2">Orthodontics - $2,000</label>
+            <label class="block text-sm font-medium text-gray-700"><input type="checkbox" id="additional-treatments" data-cost="0" class="mr-2">Others - Varies</label>
+        </div>
+    
+        <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700"><input type="checkbox" id="insurance" data-cost="0" class="mr-2">Do you have insurance coverage?</label>
+            <label for="insurance-percentage" class="block text-sm font-medium text-gray-700">Estimated Insurance Coverage (%):</label>
+            <input type="number" id="insurance-percentage" name="insurance-percentage" min="0" max="100" value="0" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+        </div>
+    
+        <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700"><input type="checkbox" id="apply-discount" data-cost="0" class="mr-2">Apply Discount/Promotion</label>
+        </div>
+    
+       
+    </form>
+    
+    <div class="text-lg font-bold text-center">
+        <p>Total Estimated Cost: $<span id="estimated-cost">0</span></p>
+    </div>
+    <!-- JavaScript for Real-Time Cost Estimation -->
+    <script>
+    document.querySelectorAll('#cosmetic-price-estimation-form input, #cosmetic-price-estimation-form select').forEach(function(input) {
+        input.addEventListener('input', calculateCosmeticEstimate);
+    });
+    
+    function calculateCosmeticEstimate() {
+        let totalCost = 0;
+    
+        // Get selected procedure and number of teeth involved
+        const procedureElement = document.getElementById('procedure-type');
+        const procedureCost = parseInt(procedureElement.selectedOptions[0].dataset.cost);
+        const numberOfTeeth = parseInt(document.getElementById('number-of-teeth').value);
+        totalCost += procedureCost * (numberOfTeeth || 1);
+    
+        // Get material choice cost
+        const materialElement = document.getElementById('material-choice');
+        const materialCost = parseInt(materialElement.selectedOptions[0].dataset.cost);
+        totalCost += materialCost * (numberOfTeeth || 1);
+    
+        // Add cost for desired shade/color
+        const shadeElement = document.getElementById('shade');
+        totalCost += parseInt(shadeElement.selectedOptions[0].dataset.cost);
+    
+        // Add cost for existing dental work
+        if (document.getElementById('existing-work').checked) {
+            totalCost += parseInt(document.getElementById('existing-work').dataset.cost);
+        }
+    
+        // Add cost based on complexity
+        const complexityElement = document.getElementById('complexity');
+        totalCost += parseInt(complexityElement.selectedOptions[0].dataset.cost);
+    
+        // Add cost based on number of visits
+        const visitsElement = document.getElementById('visits');
+        totalCost += parseInt(visitsElement.selectedOptions[0].dataset.cost);
+    
+        // Add costs for additional treatments
+        if (document.getElementById('gum-contouring').checked) {
+            totalCost += parseInt(document.getElementById('gum-contouring').dataset.cost);
+        }
+        if (document.getElementById('orthodontics').checked) {
+            totalCost += parseInt(document.getElementById('orthodontics').dataset.cost);
+        }
+    
+        // Apply insurance coverage
+        const insuranceCoverage = parseInt(document.getElementById('insurance-percentage').value) || 0;
+        totalCost = totalCost * ((100 - insuranceCoverage) / 100);
+    
+        // Display the total estimated cost
+        document.getElementById('estimated-cost').innerText = totalCost.toFixed(2);
+    }
+    </script>
+
+</body>
+</html>
